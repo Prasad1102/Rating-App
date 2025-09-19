@@ -1,0 +1,38 @@
+# Login as admin
+curl -X POST http://localhost:4000/auth/login -H "Content-Type: application/json" -d '{"email":"admin@example.com","password":"Admin@123"}'
+
+# Login as owner
+curl -X POST http://localhost:4000/auth/login -H "Content-Type: application/json" -d '{"email":"owner@example.com","password":"Owner@123"}'
+
+# Login as user
+curl -X POST http://localhost:4000/auth/login -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"User@123"}'
+
+# Register a new user
+curl -X POST http://localhost:4000/auth/register -H "Content-Type: application/json" -d '{"name":"A very long user name for test","email":"newuser@example.com","password":"User@123","address":"123 Main St"}'
+
+# Change password (user token required)
+curl -X PUT http://localhost:4000/auth/password -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" -d '{"oldPassword":"User@123","newPassword":"User@456!"}'
+
+# List stores (user token required)
+curl -X GET http://localhost:4000/stores -H "Authorization: Bearer <TOKEN>"
+
+# Rate a store (user token required)
+curl -X POST http://localhost:4000/stores/1/rate -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" -d '{"rating":5}'
+
+# Admin: create user
+curl -X POST http://localhost:4000/admin/users -H "Authorization: Bearer <ADMIN_TOKEN>" -H "Content-Type: application/json" -d '{"name":"Another Admin User Name","email":"admin2@example.com","password":"Admin@456","address":"Admin Address","role":"ADMIN"}'
+
+# Admin: create store
+curl -X POST http://localhost:4000/admin/stores -H "Authorization: Bearer <ADMIN_TOKEN>" -H "Content-Type: application/json" -d '{"name":"Store Name Longer Than 20 Chars","email":"store2@example.com","address":"Store Address","ownerId":2}'
+
+# Admin: dashboard
+curl -X GET http://localhost:4000/admin/dashboard -H "Authorization: Bearer <ADMIN_TOKEN>"
+
+# Admin: list users
+curl -X GET "http://localhost:4000/admin/users?page=1&size=10&role=USER&sort=name&order=asc" -H "Authorization: Bearer <ADMIN_TOKEN>"
+
+# Admin: list stores
+curl -X GET "http://localhost:4000/admin/stores?page=1&size=10&sort=name&order=desc" -H "Authorization: Bearer <ADMIN_TOKEN>"
+
+# Owner: dashboard
+curl -X GET http://localhost:4000/owner/dashboard -H "Authorization: Bearer <OWNER_TOKEN>"
